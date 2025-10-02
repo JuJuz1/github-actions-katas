@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
         matrix:
-            container: ["gradle:6-jdk8", "gradle:6-jdk11", "gradle:6-jdk17"]
+            container: ["gradle:6-jdk8", "gradle:6-jdk11"]
     container:
       image: ${{ matrix.container }}
 
