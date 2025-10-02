@@ -3,7 +3,7 @@
 
 name: Dev workflow
 
-on: 
+on:
   push:
     branches:
       - "dev/**"
@@ -18,13 +18,15 @@ jobs:
     container: gradle:6-jdk11
     steps:
       - name: Clone down repository
-        uses: actions/checkout@v4       
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Build application
         run: ci/build-app.sh
       - name: Test
         run: ci/unit-test-app.sh
       - uses: actions/upload-artifact@v4
-        with: 
+        with:
           name: code
           path: .
           include-hidden-files: true
