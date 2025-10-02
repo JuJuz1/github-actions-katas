@@ -1,5 +1,9 @@
 name: Main workflow
 on: push
+env: # Set the secret as an input
+  github_username: ${{ github.actor }} # Has to be lowercase, otherwise ${{ github.actor }}
+  github_password: ${{ secrets.GITHUB_TOKEN }} # Must be made available to the workflow
+  git_commit: ${{ github.sha }} # Commit sha
 jobs:
   Build:
     runs-on: ubuntu-latest
@@ -33,3 +37,25 @@ jobs:
           GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }}
           # Disable linting for now because we are not planning to modify the source files
           DISABLE_ERRORS: true
+  Docker-image:
+    runs-on: ubuntu-latest
+    needs: [Build]
+    permissions:
+      packages: write
+    steps:
+    - name: Download code
+      uses: actions/download-artifact@v4
+      with:
+          name: code
+          path: .
+    # Normalize username to lowercase to comply with docker naming rules
+    - name: Normalize GitHub username to lowercase
+      run: echo "github_username=${github_username,,}" >> $GITHUB_ENV
+      shell: bash
+    - name: Show normalized username
+      run: echo "Normalized username is $github_username"
+    - name: Build docker
+      run: bash ci/build-docker.sh
+    - name: Push docker
+      run: bash ci/push-docker.sh
+
