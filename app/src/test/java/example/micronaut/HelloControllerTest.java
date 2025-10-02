@@ -11,21 +11,21 @@ import org.junit.jupiter.api.Test;
 
 import javax.inject.Inject;
 
-@MicronautTest 
+@MicronautTest
 public class HelloControllerTest {
 
     @Inject
     @Client("/")
-    RxHttpClient client; 
+    RxHttpClient client;
     //Test spins up an entire server and client to perform the test
-    
+
     @Test
     public void testHello() {
-        HttpRequest<String> request = HttpRequest.GET("/hello/sofus"); 
+        HttpRequest<String> request = HttpRequest.GET("/hello/sofus");
         String body = client.toBlocking().retrieve(request);
 
         assertNotNull(body);
-        assertEquals("Hello sofus", body);
+        assertEquals("Hello sofus BREAK", body);
     }
     @Test
     public void testCombineName() {
@@ -33,8 +33,8 @@ public class HelloControllerTest {
         HelloController sut = new HelloController();
         System.out.println("testing");
         assertEquals("Hello "+name, sut.combineName(name),"Name and greeting not properly combined");
-        
-        
+
+
     }
 
 }
