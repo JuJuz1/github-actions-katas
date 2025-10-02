@@ -20,6 +20,9 @@ jobs:
           name: code
           path: .
           include-hidden-files: true
+
+### Linting ###
+
   Linting:
     runs-on: ubuntu-latest
     needs: [Build]
@@ -37,6 +40,9 @@ jobs:
           GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }}
           # Disable linting for now because we are not planning to modify the source files
           DISABLE_ERRORS: true
+
+### Docker ###
+
   Docker-image:
     runs-on: ubuntu-latest
     needs: [Build]
@@ -59,3 +65,28 @@ jobs:
     - name: Push docker
       run: bash ci/push-docker.sh
 
+  ### Tests ###
+
+  Component-test:
+    runs-on: ubuntu-latest
+    needs: [Docker-image]
+    steps:
+    - name: Download code
+      uses: actions/download-artifact@v4
+      with:
+        name: code
+        path: .
+    - name: Execute component test
+      run: bash ci/component-test.sh
+
+  Performance-test:
+    runs-on: ubuntu-latest
+    needs: [Docker-image]
+    steps:
+    - name: Download code
+      uses: actions/download-artifact@v4
+      with:
+        name: code
+        path: .
+    - name: Execute performance test
+      run: bash ci/performance-test.sh
