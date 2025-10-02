@@ -31,3 +31,5 @@ jobs:
           DEFAULT_BRANCH: main
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }}
+          # Disable linting for now because we are not planning to modify the source files
+          DISABLE_ERRORS: true
