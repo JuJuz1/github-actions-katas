@@ -57,9 +57,6 @@ jobs:
     # Normalize username to lowercase to comply with docker naming rules
     - name: Normalize GitHub username to lowercase
       run: echo "github_username=${github_username,,}" >> $GITHUB_ENV
-      shell: bash
-    - name: Show normalized username
-      run: echo "Normalized username is $github_username"
     - name: Build docker
       run: bash ci/build-docker.sh
     - name: Push docker
@@ -76,6 +73,8 @@ jobs:
       with:
         name: code
         path: .
+    - name: Normalize GitHub username to lowercase
+      run: echo "github_username=${github_username,,}" >> $GITHUB_ENV
     - name: Execute component test
       run: bash ci/component-test.sh
 
@@ -88,5 +87,7 @@ jobs:
       with:
         name: code
         path: .
+    - name: Normalize GitHub username to lowercase
+      run: echo "github_username=${github_username,,}" >> $GITHUB_ENV
     - name: Execute performance test
       run: bash ci/performance-test.sh
