@@ -3,7 +3,7 @@ on: push
 env: # Set the secret as an input
   github_username: ${{ github.actor }} # Has to be lowercase, otherwise ${{ github.actor }}
   github_password: ${{ secrets.GITHUB_TOKEN }} # Must be made available to the workflow
-  git_commit: ${{ github.sha }} # Commit sha
+  GIT_COMMIT: ${{ github.sha }} # Commit sha
 jobs:
   Build:
     runs-on: ubuntu-latest
