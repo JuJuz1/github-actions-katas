@@ -1,5 +1,11 @@
 name: Main workflow
-on: push
+
+on: 
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
 env: # Set the secret as an input
   github_username: ${{ github.actor }} # Has to be lowercase, otherwise ${{ github.actor }}
   github_password: ${{ secrets.GITHUB_TOKEN }} # Must be made available to the workflow
@@ -37,7 +43,7 @@ jobs:
         env:
           DEFAULT_BRANCH: main
           # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Disable linting for now because we are not planning to modify the source files
           DISABLE_ERRORS: true
 
